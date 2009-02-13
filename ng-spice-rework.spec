@@ -13,8 +13,8 @@ Group: 	 Sciences/Other
 Url: 	 http://ngspice.sourceforge.net/download.html
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
-BuildRequires:	libxaw-devel
-BuildRequires:	libreadline5-devel
+BuildRequires:	xaw-devel
+BuildRequires:	readline-devel
 BuildRequires:  gcc-gfortran
 BuildRequires:  flex
 BuildRequires:  bison

@@ -1,18 +1,23 @@
 %define name 	ng-spice-rework
 %define version 18
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary: Ngspice is a mixed-level/mixed-signal circuit simulator
 Name: 	 %{name}
 Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.bz2
+Patch1:	 %{name}-%{version}-build.patch.bz2
 License: BSD
 Group: 	 Sciences/Other
 Url: 	 http://ngspice.sourceforge.net/download.html
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 BuildRequires:	libxaw-devel
+BuildRequires:	libreadline5-devel
+BuildRequires:  gcc-gfortran
+BuildRequires:  flex
+BuildRequires:  bison
 
 %description
 Ngspice is a mixed-level/mixed-signal circuit simulator. Its code is
@@ -43,12 +48,33 @@ Ngspice is an ongoing project, growing everyday from users
 contributions, suggestions and reports. What we will be able to do
 depends mostly on user interests, contributions and feedback.
 
+%package -n %{name}-examples
+Summary:	Examples files for NGSpice
+Group:		Sciences/Other
+License:	BSD
+
+%description -n %{name}-examples
+Examples files for NGSpice
+
 %prep
 %setup -q 
+%patch1
 
 %build
 autoreconf -fi
-%configure
+%configure \
+	--with-readline \
+	--enable-maintainer-mode \
+	--enable-capzerobypass \
+	--enable-intnoise \
+	--enable-xspice \
+	--enable-cider \
+	--disable-xgraph \
+	--enable-debug \
+	--enable-numparam=yes \
+	--enable-dot-global \
+	--enable-experimental
+	
 %make
 iconv -t utf-8 doc/ngspice.info -o doc/ngspice.info
 
@@ -56,6 +82,14 @@ iconv -t utf-8 doc/ngspice.info -o doc/ngspice.info
 rm -rf %{buildroot}
 %makeinstall_std
 
+# Install examples
+%__install -d -m755 examples %{buildroot}/%{_datadir}/%{name}
+
+# Install other documentation
+%__install -m755 doc/ngspice.pdf doc/ngspice.ps %{buildroot}/%{_datadir}/%{name}
+
+# Fix 
+chmod -x  doc/ngspice.pdf doc/ngspice.ps
 
 %post
 %_install_info ngspice.info.lmza
@@ -78,9 +112,18 @@ rm -rf %{buildroot}
 %{_bindir}/ngproc2mod
 %{_bindir}/ngsconvert
 %{_bindir}/ngspice
+%{_bindir}/cmpp
+%{_libdir}/spice/
 %{_datadir}/%{name}
 %{_mandir}/man1/ngspice.1.lzma
 %{_mandir}/man1/ngsconvert.1.lzma
 %{_mandir}/man1/ngmultidec.1.lzma
 %{_mandir}/man1/ngnutmeg.1.lzma
 %{_infodir}/ngspice.info*.lzma
+%doc AUTHORS BUGS ChangeLog COPYING FAQ INSTALL README
+%doc doc/ngspice.pdf doc/ngspice.ps
+
+%files -n %{name}-examples
+%defattr(-,root,root,0755)
+%doc examples
+

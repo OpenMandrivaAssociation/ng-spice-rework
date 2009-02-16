@@ -1,6 +1,6 @@
 %define name 	ng-spice-rework
 %define version 18
-%define release %mkrel 2
+%define release %mkrel 3
 
 Summary: Ngspice is a mixed-level/mixed-signal circuit simulator
 Name: 	 %{name}
@@ -15,6 +15,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 BuildRequires:	xaw-devel
 BuildRequires:	readline-devel
+BuildRequires:	ncurses-devel
 BuildRequires:  gcc-gfortran
 BuildRequires:  flex
 BuildRequires:  bison

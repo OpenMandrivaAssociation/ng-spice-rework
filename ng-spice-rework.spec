@@ -1,13 +1,14 @@
 %define name 	ng-spice-rework
-%define version 18
-%define release %mkrel 5
+%define shortname 	ngspice
+%define version 21
+%define release %mkrel 1
 
 Summary: Ngspice is a mixed-level/mixed-signal circuit simulator
 Name: 	 %{name}
 Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.bz2
-Patch1:	 %{name}-%{version}-build.patch.bz2
+Patch1:	 %{name}-19-build.patch.bz2
 License: BSD
 Group: 	 Sciences/Other
 Url: 	 http://ngspice.sourceforge.net/download.html
@@ -58,7 +59,7 @@ License:	BSD
 Examples files for NGSpice
 
 %prep
-%setup -q 
+%setup -q -n %{shortname}-%{version}
 %patch1
 
 %build
@@ -77,7 +78,6 @@ autoreconf -fi
 	--enable-experimental
 	
 %make
-iconv -t utf-8 doc/ngspice.info -o doc/ngspice.info
 
 %install
 rm -rf %{buildroot}
@@ -86,21 +86,7 @@ rm -rf %{buildroot}
 # Install examples
 %__install -d -m755 examples %{buildroot}/%{_datadir}/%{name}
 
-# Install other documentation
-%__install -m755 doc/ngspice.pdf doc/ngspice.ps %{buildroot}/%{_datadir}/%{name}
-
-# Fix 
-chmod -x  doc/ngspice.pdf doc/ngspice.ps
-
-%post
-%_install_info ngspice.info.lmza
-%_install_info ngspice.info-1.lmza
-%_install_info ngspice.info-2.lmza
-
-%preun
-%_remove_install_info ngspice.info.lmza
-%_remove_install_info ngspice.info-1.lmza
-%_remove_install_info ngspice.info-2.lmza
+%__mv %{buildroot}/%{_datadir}/%{shortname} %{buildroot}/%{_datadir}/%{name}
 
 %clean
 rm -rf %{buildroot}
@@ -120,9 +106,7 @@ rm -rf %{buildroot}
 %{_mandir}/man1/ngsconvert.1.lzma
 %{_mandir}/man1/ngmultidec.1.lzma
 %{_mandir}/man1/ngnutmeg.1.lzma
-%{_infodir}/ngspice.info*.lzma
 %doc AUTHORS BUGS ChangeLog COPYING FAQ INSTALL README
-%doc doc/ngspice.pdf doc/ngspice.ps
 
 %files -n %{name}-examples
 %defattr(-,root,root,0755)

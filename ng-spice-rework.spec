@@ -11,7 +11,7 @@ Source0: %{name}-%{version}.tar.bz2
 Patch1:	 %{name}-19-build.patch.bz2
 License: BSD
 Group: 	 Sciences/Other
-Url: 	 http://ngspice.sourceforge.net/download.html
+Url: 	 https://ngspice.sourceforge.net/download.html
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 BuildRequires:	xaw-devel

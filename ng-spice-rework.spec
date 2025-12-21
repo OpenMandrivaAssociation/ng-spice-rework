@@ -14,6 +14,11 @@ Group: 	 Sciences/Other
 Url: 	 https://ngspice.sourceforge.net/download.html
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	xaw-devel
 BuildRequires:	readline-devel
 BuildRequires:	ncurses-devel

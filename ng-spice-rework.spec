@@ -1,7 +1,7 @@
 %define name 	ng-spice-rework
 %define shortname 	ngspice
 %define version 21
-%define release %mkrel 1
+%define release 2
 
 Summary: Ngspice is a mixed-level/mixed-signal circuit simulator
 Name: 	 %{name}
